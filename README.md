@@ -65,4 +65,4 @@ The intent of this website is to be a social media page that allows users to con
 - Django
 - rest_framework
 - React 
-- React-router
+- React-router  
