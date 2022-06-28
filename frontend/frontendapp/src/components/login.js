@@ -1,52 +1,52 @@
-import React, { Component } from "react";
-class Login extends Component {
+import React from "react";
+import { useState } from 'react'
+function Login() {
 
-    state = {
-        credentials: {username:'', password:''}
+    const [log, setLog] = useState({ username: "", password: "" })
+    const [verify, setVerify] = useState("")
+    const handleChange = (event) => {
+        setLog({ ...log, [event.target.name]: event.target.value })
     }
 
-    login = event => {
-        console.log(this.state.credentials)
+
+    const login = () => {
         fetch('http://127.0.0.1:8000/auth/', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(this.state.credentials)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(log)
         })
-        .then( data => data.json())
-        .then(
-            data => {
-                console.log(data);
-            }
-        ).catch( error => console.error(error))
+            .then(data => data.json())
+            .then(data => setVerify(data.token))
+    }
+    console.log(verify)
+    let text = ""
+    if(verify){
+        text = "LOGIN SUCCESSFULL" 
+    } else {
+        text = "INVALID LOGIN"
     }
 
-    inputChanged = event => {
-        const cred = this.state.credentials;
-        cred[event.target.name] = event.target.value;
-        this.setState({credentials: cred});
-    }
-    render() {
-        return (
-            <div>
-                <h1>Login user form</h1>
-                <label>
-                    Username: 
-                    <input type="text" name="username" 
-                    value={this.state.credentials.username} 
-                    onChange={this.inputChanged} />
-                </label>
-                <br />
-                <label>
-                    Password: 
-                    <input type="password" name="password" 
-                    value={this.state.credentials.password} 
-                    onChange={this.inputChanged}/>
-                </label>
-                <br />
-                <button onClick={this.login}>Login</button>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <h1>Login user form</h1>
+            <label>
+                Username:
+                <input type="text" name="username"
+                    value={log.username}
+                    onChange={handleChange} />
+            </label>
+            <br />
+            <label>
+                Password:
+                <input type="password" name="password"
+                    value={log.password}
+                    onChange={handleChange} />
+            </label>
+            <br />
+            <button onClick={login}>Login</button>
+            <p>{text}</p>
+        </div>
+    );
 }
 
 export default Login;
