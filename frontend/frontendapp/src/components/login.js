@@ -16,35 +16,53 @@ function Login() {
             body: JSON.stringify(log)
         })
             .then(data => data.json())
-            .then(data => setVerify(data.token))
+            // .then(data => console.log(data.username))
+            .then(data => setVerify(data))
     }
-    console.log(verify)
+    let userForm = (
+        <div>
+            <label>
+                <input type="text" name="username"
+                    value={log.username}
+                    onChange={handleChange} 
+                    placeholder="username"/>
+            </label>
+            <br />
+            <label>
+                <input type="password" name="password"
+                    value={log.password}
+                    onChange={handleChange}
+                    placeholder="password" />
+            </label>
+            <br />
+            <button onClick={login}>Login</button>
+        </div>
+    )
+    // const disapear () => {
+    //     setTimeout(, 3000);
+    //   }
+    let empty = ""
+    let username = ""
     let text = ""
-    if(verify){
-        text = "LOGIN SUCCESSFULL" 
-    } else {
+    if (verify.token) {
+        text = "LOGIN SUCCESSFULL"
+        userForm = ""
+        username = "Hello " + log.username + "!"
+    }else if(verify.username || verify.password){
+       empty = "PLEASE ENTER YOUR INFORMATIONS" 
+    } else if(verify.non_field_errors) {
         text = "INVALID LOGIN"
+    } else {
+        text = ""
     }
 
     return (
         <div>
-            <h1>Login user form</h1>
-            <label>
-                Username:
-                <input type="text" name="username"
-                    value={log.username}
-                    onChange={handleChange} />
-            </label>
-            <br />
-            <label>
-                Password:
-                <input type="password" name="password"
-                    value={log.password}
-                    onChange={handleChange} />
-            </label>
-            <br />
-            <button onClick={login}>Login</button>
+            <h1>Login user</h1>
+            {userForm}
             <p>{text}</p>
+            <p>{username} </p>
+            <p>{empty}</p>
         </div>
     );
 }
