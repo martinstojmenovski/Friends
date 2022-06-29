@@ -1,18 +1,45 @@
-import './App.css';
-import Login from './components/Login';
-import { BrowserRouter, Routes, Route, Link, Router } from "react-router-dom";
-import Home from './components/Home';
+import React, { useState } from "react";
+import LoginForm from "./components/LoginForm";
 function App() {
+
+  const [ user, setUser ] = useState({username: "", password: ""});
+  const  [ error, setError] = useState("");
+  console.log(user)
+
+
+
+
+  const Login = details => {
+    
+  
+    if(details.token) {
+      console.log("Logged in")
+      setUser({
+        username: details.username,
+        password: details.password
+      })
+    } else {
+      console.log("Details do not match!")
+      setError("Details do not match!")
+    }
+  }
+
+
+
+  const Logout = () => {
+    // console.log("Logout")
+    setUser({ username: "", password: "" })
+  }
+
+
   return (
     <div className="App">
-        <nav>
-          <Link to='/'>Home</Link>
-          <Link to='/login'>Login</Link>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
+      {(user.username !="") ? (
+        <div className="welcome">
+          <h2>Welcome, <span>{user.username}</span></h2>
+          <button onClick={Logout}>LOGOUT</button>
+          </div>
+      ) : ( <LoginForm Login={Login} error={error} />)}
     </div>
   );
 }

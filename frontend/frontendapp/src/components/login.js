@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from 'react'
+import Home from "./Home";
 function Login() {
 
     const [log, setLog] = useState({ username: "", password: "" })
@@ -16,9 +17,9 @@ function Login() {
             body: JSON.stringify(log)
         })
             .then(data => data.json())
-            // .then(data => console.log(data.username))
             .then(data => setVerify(data))
     }
+
     let userForm = (
         <div>
             <label>
@@ -48,6 +49,7 @@ function Login() {
         text = "LOGIN SUCCESSFULL"
         userForm = ""
         username = "Hello " + log.username + "!"
+       
     }else if(verify.username || verify.password){
        empty = "PLEASE ENTER YOUR INFORMATIONS" 
     } else if(verify.non_field_errors) {
@@ -58,6 +60,7 @@ function Login() {
 
     return (
         <div>
+            <Home />
             <h1>Login user</h1>
             {userForm}
             <p>{text}</p>
