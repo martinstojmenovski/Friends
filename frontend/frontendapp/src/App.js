@@ -1,45 +1,35 @@
 import React, { useState } from "react";
 import LoginForm from "./components/LoginForm";
+import LoginPage from "./components/LoginPage";
 function App() {
 
-  const [ user, setUser ] = useState({username: "", password: ""});
+  const [ user, setUser ] = useState("");
+  const [ username, setUsername ] = useState("");
   const  [ error, setError] = useState("");
-  console.log(user)
 
+  const userName = (details) => {
+    setUsername(details)
+  }
 
-
-
-  const Login = details => {
-    
-  
+  const Login = (details) => {
     if(details.token) {
-      console.log("Logged in")
-      setUser({
-        username: details.username,
-        password: details.password
-      })
+      setUser(details.token)
     } else {
-      console.log("Details do not match!")
       setError("Details do not match!")
     }
   }
-
-
-
+  
   const Logout = () => {
-    // console.log("Logout")
-    setUser({ username: "", password: "" })
+    setUser("")
+    setError("")
   }
-
 
   return (
     <div className="App">
-      {(user.username !="") ? (
-        <div className="welcome">
-          <h2>Welcome, <span>{user.username}</span></h2>
-          <button onClick={Logout}>LOGOUT</button>
-          </div>
-      ) : ( <LoginForm Login={Login} error={error} />)}
+      {(user !="") ? (
+        <LoginPage Logout={Logout} username={username.username}/>
+        
+      ) : ( <LoginForm Login={Login} userName={userName} error={error} />)}
     </div>
   );
 }

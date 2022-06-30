@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-function LoginForm({ Login, error }) {
+import Register from "./RegisterForm";
+function LoginForm({ Login, error, userName }) {
 
     const [details, setDetails] = useState({ username: "", password: "" });
+    const [active, setActive] = useState("login")
 
     const submitHandler = e => {
         e.preventDefault();
-
+        userName(details)
         fetch('http://127.0.0.1:8000/auth/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -13,26 +15,30 @@ function LoginForm({ Login, error }) {
         })
             .then(data => data.json())
             .then(data => Login(data))
-
-        // Login(details)
     }
 
+
+
     return (
-        <form onSubmit={submitHandler}>
-            <div className="form-inner">
-                <h2>Login</h2>
-                <div className="form-group">
-                    <label htmlFor="email">Email:</label>
-                    <input type="text" name="username" id="email" onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} />
+        <div>
+            <h2 onClick={() => setActive("login")}>Login</h2>
+            {active === "login" && <form onSubmit={submitHandler}>
+                <div className="form-inner">
+                    <p>Don't have an account? <span onClick={() => setActive("register")}>Sign up</span></p>
+                    <div className="form-group">
+                        <label htmlFor="email">Username: </label>
+                        <input placeholder="username" type="text" name="username" id="email" onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="passwprd">Password: </label>
+                        <input placeholder="password" type="password" name="password" id="password" onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} />
+                    </div>
+                    <input type="submit" value="LOGIN" />
+                    {(error != "") ? (<div className="error">{error}</div>) : ""}
                 </div>
-                <div className="form-group">
-                    <label htmlFor="passwprd">Password:</label>
-                    <input type="password" name="password" id="password" onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} />
-                </div>
-                <input type="submit" value="LOGIN" />
-                {(error != "") ? (<div className="error">{error}</div>) : ""}
-            </div>
-        </form>
+            </form>}
+            {active === "register" && <Register />}
+        </div>
     );
 
 }
