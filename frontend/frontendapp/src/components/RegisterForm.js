@@ -22,12 +22,17 @@ function Register(props) {
 
     const handleErrors = (details) => {
         console.log(details)
-        if (details.password && details.username) {
-            setError(details.password[0] + " " + details.username[0])
-        } else if (details.username) {
+        if(details.id){
+            setError("Account has been successfully created.")
+        }
+        else if (details.password && details.username) {
+            setError(details.username[0])
+        } else if(details.password) {
+            setError(details.password[0])
+        }else if (details.username) {
             setError(details.username[0])
         } else {
-            setError("Account has been successfully created.")
+            setError(" ")
         }
     }
 
@@ -49,7 +54,7 @@ function Register(props) {
                         <input placeholder="re-enter password" type="password" name="confirm" id="confirm" onChange={e => setDetails({ ...details, confirm: e.target.value })} value={details.confirm} />
                     </div>
                     <input type="submit" value="Create account" />
-                    {(error != "") ? (<div className="error">{error}</div>) : ""}
+                    {(error != "") ? (<div className="error"> {error} </div>) : ""}
                 </div>
             </form>
 

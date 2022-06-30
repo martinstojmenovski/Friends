@@ -36,7 +36,7 @@ function App() {
       {(user != "") ? (
         <LoginPage Logout={Logout} username={username.username} />
 
-      ) : (<LoginForm Login={Login} userName={userName} error={error} />)}
+      ) : (<LoginForm Login={Login} userName={userName} error={error} setError={setError} />)}
     </div>
   );
 }

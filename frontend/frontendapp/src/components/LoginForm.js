@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import Register from "./RegisterForm";
-function LoginForm({ Login, error, userName }) {
+function LoginForm({ Login, error, userName, setError }) {
 
     const [details, setDetails] = useState({ username: "", password: "" });
     const [active, setActive] = useState("login")
-
     const submitHandler = e => {
         e.preventDefault()
         userName(details)
@@ -16,6 +15,13 @@ function LoginForm({ Login, error, userName }) {
             .then(data => data.json())
             .then(data => Login(data))
     }
+
+    const registerWindow = () => {
+        setActive("register")
+        setError("")
+        
+    }
+
 
     return (
         <div>
@@ -35,7 +41,7 @@ function LoginForm({ Login, error, userName }) {
                     <input type="submit" value="LOGIN" />
                     {(error != "") ? (<div className="error">{error}</div>) : ""}
                     <div className="_8icz"></div>
-                    <button onClick={() => setActive("register")}>Create new account</button>
+                    <button onClick={registerWindow}>Create new account</button>
                 </div>
             </form>}
             {active === "register" && <Register setActive={setActive} />}

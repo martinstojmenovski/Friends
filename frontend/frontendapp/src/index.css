@@ -97,7 +97,7 @@ form .form-inner input[type="submit"]:hover,
     color: #888;
     font-size: 28px;
     font-weight: 500;
-    margin-bottom: 30px
+    margin-bottom: 30px;
 }
 .welcome h2 span {
     color: #FE4880;
@@ -119,4 +119,10 @@ form .form-inner input[type="submit"]:hover,
     left: 22px;
     bottom: 23px;
     
+}
+.form-inner .error {
+    color: #FE4880;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 20px;
 }
