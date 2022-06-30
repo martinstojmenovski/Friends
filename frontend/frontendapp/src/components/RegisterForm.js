@@ -1,23 +1,44 @@
 import React, { useState } from "react";
-function Register() {
+function Register(props) {
 
-    const [details, setDetails] = useState({ username: "", password: "" });
-   
-    const register = e => {
+    const [details, setDetails] = useState({ username: "", password: "", confirm: "" });
+    const [error, setError] = useState("");
+
+    const createAccount = e => {
         e.preventDefault();
-        
-        fetch('http://127.0.0.1:8000/api/users/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(details)
-        })
+        if (details.password !== details.confirm) {
+            setError("The password confirmation does not match.")
+        } else {
+            fetch('http://127.0.0.1:8000/api/users/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(details)
+            })
+                .then(data => data.json())
+                .then(data => handleErrors(data))
+        }
+
     }
 
+    const handleErrors = (details) => {
+        console.log(details)
+        if (details.password && details.username) {
+            setError(details.password[0] + " " + details.username[0])
+        } else if (details.username) {
+            setError(details.username[0])
+        } else {
+            setError("Account has been successfully created.")
+        }
+    }
 
     return (
         <div >
-            <form onClick={register}>
+            <form onSubmit={createAccount}>
+            
                 <div className="form-inner">
+                <div className="x" onClick={() => props.setActive("login")}>X</div>
+                <h2 >Create your account</h2>
+                
                     <div className="form-group">
                         <input placeholder="username" type="text" name="username" id="email" onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} />
                     </div>
@@ -25,9 +46,10 @@ function Register() {
                         <input placeholder="password" type="password" name="password" id="password" onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} />
                     </div>
                     <div className="form-group">
-                        <input placeholder="re-enter password"  />
+                        <input placeholder="re-enter password" type="password" name="confirm" id="confirm" onChange={e => setDetails({ ...details, confirm: e.target.value })} value={details.confirm} />
                     </div>
-                    <input type="submit" value="Create account"  />
+                    <input type="submit" value="Create account" />
+                    {(error != "") ? (<div className="error">{error}</div>) : ""}
                 </div>
             </form>
 
