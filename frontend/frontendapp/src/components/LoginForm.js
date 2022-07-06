@@ -7,7 +7,7 @@ function LoginForm({ Login, error, userName, setError }) {
     const submitHandler = e => {
         e.preventDefault()
         userName(details)
-        fetch('http://127.0.0.1:8000/auth/', {
+        fetch('https://friendsz.herokuapp.com/auth/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)
