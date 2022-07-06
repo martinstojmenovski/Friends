@@ -21,7 +21,6 @@ function Register(props) {
     }
 
     const handleErrors = (details) => {
-        console.log(details)
         if(details.id){
             setError("Account has been successfully created.")
         }
