@@ -19,13 +19,12 @@ function LoginForm({ Login, error, userName, setError }) {
     const registerWindow = () => {
         setActive("register")
         setError("")
-        
     }
 
 
     return (
         <div>
-            
+
             {active === "login" && <form onSubmit={submitHandler}>
                 <div className="form-inner">
                     <h2>Login</h2>

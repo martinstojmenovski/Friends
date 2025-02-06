@@ -21,14 +21,14 @@ function Register(props) {
     }
 
     const handleErrors = (details) => {
-        if(details.id){
+        if (details.id) {
             setError("Account has been successfully created.")
         }
         else if (details.password && details.username) {
             setError(details.username[0])
-        } else if(details.password) {
+        } else if (details.password) {
             setError(details.password[0])
-        }else if (details.username) {
+        } else if (details.username) {
             setError(details.username[0])
         } else {
             setError(" ")
@@ -38,11 +38,9 @@ function Register(props) {
     return (
         <div >
             <form onSubmit={createAccount}>
-            
                 <div className="form-inner">
-                <div className="x" onClick={() => props.setActive("login")}>X</div>
-                <h2 >Create your account</h2>
-                
+                    <div className="x" onClick={() => props.setActive("login")}>X</div>
+                    <h2 >Create your account</h2>
                     <div className="form-group">
                         <input placeholder="username" type="text" name="username" id="email" onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} />
                     </div>
